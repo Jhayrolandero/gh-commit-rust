@@ -36,7 +36,9 @@ pub async fn review_diff(diff: &str) -> Result<(), Box<dyn std::error::Error>> {
 
     let response = client.send_message(request).await?;
     for block in &response.content {
-        println!("{:#?}", block);
+        if let claude_sdk::ContentBlock::Text { text, .. } = block {
+            println!("{}", text);
+        }
     }
 
     Ok(())
